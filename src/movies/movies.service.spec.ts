@@ -4,6 +4,11 @@ import { MoviesService } from './movies.service';
 
 describe('MoviesService', () => {
   let service: MoviesService;
+  const testData = {
+    title: 'Test Title',
+    genres: ['test_g1', 'test_g2'],
+    year: 2022,
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -26,22 +31,14 @@ describe('MoviesService', () => {
   describe('create', () => {
     it('should create a movie', () => {
       const beforeCreate = service.getAll().length;
-      service.create({
-        title: 'Test Title',
-        genres: ['test_g1', 'test_g2'],
-        year: 2022,
-      });
+      service.create(testData);
       const afterCreate = service.getAll().length;
       expect(afterCreate).toBeGreaterThan(beforeCreate);
     });
   });
   describe('getOne', () => {
     it('should return a movie', () => {
-      service.create({
-        title: 'Test Title',
-        genres: ['test_g1', 'test_g2'],
-        year: 2022,
-      });
+      service.create(testData);
       const movie = service.getOne(1);
       expect(movie).toBeDefined();
     });
@@ -57,11 +54,7 @@ describe('MoviesService', () => {
 
   describe('deleteOne', () => {
     it('should delete a movie', () => {
-      service.create({
-        title: 'Test Title',
-        genres: ['test_g1', 'test_g2'],
-        year: 2022,
-      });
+      service.create(testData);
       const beforeDelete = service.getAll().length;
       service.deleteOne(1);
       const afterDelete = service.getAll().length;
@@ -78,11 +71,7 @@ describe('MoviesService', () => {
 
   describe('update', () => {
     it('should upate a movie', () => {
-      service.create({
-        title: 'Test Title',
-        genres: ['test_g1', 'test_g2'],
-        year: 2022,
-      });
+      service.create(testData);
       service.update(1, { title: 'Update Test' });
       const movie = service.getOne(1);
       expect(movie.title).toEqual('Update Test');
